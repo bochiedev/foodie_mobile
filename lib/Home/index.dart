@@ -18,6 +18,7 @@ class _HomepageState extends State<Homepage> {
     this.getJsonData();
   }
 
+
   Future<String> getJsonData() async {
     var response = await http.get(Uri.encodeFull(url),
         headers: {"content-type": "application/json"});
@@ -35,8 +36,8 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-
-    var avatar = new CircleAvatar();
+    var _avatar = new CircleAvatar();
+    int _org_id;
 
     return Scaffold(
       appBar: new AppBar(
@@ -44,20 +45,18 @@ class _HomepageState extends State<Homepage> {
         backgroundColor: Colors.blueGrey,
       ),
       drawer: new Drawer(
-          child: new ListView(
-          children: <Widget>[          
+        child: new ListView(
+          children: <Widget>[
             new DrawerHeader(
                 child: new Row(
-                  children: <Widget>[
-                    avatar,
-                    new Container(
-                      padding: new EdgeInsets.only(left: 50.0),
-                     child:  new Text('name'),
-                    ),
-                    
-                    
-                  ],
-                )),
+              children: <Widget>[
+                _avatar,
+                new Container(
+                  padding: new EdgeInsets.only(left: 50.0),
+                  child: new Text('name'),
+                ),
+              ],
+            )),
             new ListTile(
               title: new Text("Organizations"),
               leading: new Icon(Icons.close),
@@ -66,7 +65,6 @@ class _HomepageState extends State<Homepage> {
               title: new Text("Orders"),
               leading: new Icon(Icons.close),
             ),
-            
             new ListTile(
               title: new Text("Settings"),
               leading: new Icon(Icons.settings),
@@ -81,20 +79,18 @@ class _HomepageState extends State<Homepage> {
       body: new ListView.builder(
         itemCount: organizations == null ? 0 : organizations.length,
         itemBuilder: (BuildContext context, int index) {
-          return new Container(
-              child: new Center(
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                new Card(
+          return new GestureDetector( //You need to make my child interactive
+              onTap: () => print(organizations[index]['id']),
+              child: new Card(
                   child: new Container(
                     child: new Text(organizations[index]['name']),
                     padding: const EdgeInsets.all(20.0),
+                   
                   ),
-                )
-              ],
-            ),
-          ));
+                  
+                ),
+            );
+
         },
       ),
     );
